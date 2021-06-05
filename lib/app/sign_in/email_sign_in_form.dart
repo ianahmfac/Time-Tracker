@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/bloc/email_sign_in_bloc.dart';
+import 'package:time_tracker/managers/email_sign_in_bloc.dart';
 import 'package:time_tracker/models/email_sign_in_model.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:time_tracker/widgets/form_submit_button.dart';

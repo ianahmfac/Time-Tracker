@@ -5,10 +5,10 @@ import 'package:flutter/widgets.dart';
 
 import 'package:time_tracker/services/auth.dart';
 
-class SignInBloc {
+class SignInManager {
   final AuthBase auth;
   final ValueNotifier<bool> isLoading;
-  SignInBloc({
+  SignInManager({
     required this.auth,
     required this.isLoading,
   });
