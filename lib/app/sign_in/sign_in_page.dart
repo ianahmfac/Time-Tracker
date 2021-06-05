@@ -11,9 +11,11 @@ import 'package:time_tracker/widgets/platform_alert_dialog.dart';
 
 class SignInPage extends StatelessWidget {
   final SignInBloc bloc;
+  final bool isLoading;
   const SignInPage({
     Key? key,
     required this.bloc,
+    required this.isLoading,
   }) : super(key: key);
 
   static Widget create(BuildContext context) {
@@ -24,7 +26,10 @@ class SignInPage extends StatelessWidget {
         builder: (_, isLoading, __) => Provider<SignInBloc>(
           create: (_) => SignInBloc(auth: auth, isLoading: isLoading),
           child: Consumer<SignInBloc>(
-            builder: (_, bloc, __) => SignInPage(bloc: bloc),
+            builder: (_, bloc, __) => SignInPage(
+              bloc: bloc,
+              isLoading: isLoading.value,
+            ),
           ),
         ),
       ),
@@ -76,25 +81,24 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = Provider.of<ValueNotifier<bool>>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Time Tracker'),
         elevation: 2.0,
       ),
-      body: _buildContent(context, isLoading.value),
+      body: _buildContent(context),
       backgroundColor: Colors.grey[200],
     );
   }
 
-  Widget _buildContent(BuildContext context, bool isLoading) {
+  Widget _buildContent(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildHeader(isLoading),
+            _buildHeader(),
             SizedBox(height: 48),
             SocialSignInButton(
               assetName: 'images/google-logo.png',
@@ -137,7 +141,7 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(bool isLoading) {
+  Widget _buildHeader() {
     if (isLoading)
       return Center(
         child: CircularProgressIndicator(),
