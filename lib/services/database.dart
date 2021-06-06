@@ -22,7 +22,13 @@ class FirestoreDatabase implements Database {
     required String path,
     required Map<String, dynamic> data,
   }) async {
-    final ref = FirebaseFirestore.instance.doc(path);
-    await ref.set(data);
+    try {
+      final ref = FirebaseFirestore.instance.doc(path);
+      await ref.set(data);
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      throw e.toString();
+    }
   }
 }

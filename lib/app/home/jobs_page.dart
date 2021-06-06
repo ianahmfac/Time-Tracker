@@ -22,8 +22,16 @@ class JobsPage extends StatelessWidget {
   }
 
   void _addNewJob(BuildContext context) async {
-    final db = Provider.of<Database>(context, listen: false);
-    await db.createJob(Job(name: 'Mobile Developer', ratePerHour: 250000));
+    try {
+      final db = Provider.of<Database>(context, listen: false);
+      await db.createJob(Job(name: 'Mobile Developer', ratePerHour: 250000));
+    } catch (e) {
+      PlatformAlertDialog(
+        titleText: 'Something went wrong',
+        contentText: e.toString(),
+        buttonDialogText: 'Close',
+      ).show(context);
+    }
   }
 
   @override
