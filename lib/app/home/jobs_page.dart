@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:time_tracker/widgets/platform_alert_dialog.dart';
 
-class HomePage extends StatelessWidget {
+class JobsPage extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
     try {
@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('Jobs'),
         actions: [
           TextButton(
             onPressed: () => _signOut(context),
