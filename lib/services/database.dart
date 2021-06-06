@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:time_tracker/models/job.dart';
 
 abstract class Database {
-  Future<void> createJob(Map<String, dynamic> jobData);
+  Future<void> createJob(Job job);
 }
 
 class FirestoreDatabase implements Database {
@@ -11,10 +12,10 @@ class FirestoreDatabase implements Database {
   });
 
   @override
-  Future<void> createJob(Map<String, dynamic> jobData) async {
-    final path = '/users/$uid/jobs/job_abc';
-    final documentRef = FirebaseFirestore.instance.doc(path);
+  Future<void> createJob(Job job) async {
+    final path = '/users/$uid/jobs';
+    final collectionRef = FirebaseFirestore.instance.collection(path);
 
-    await documentRef.set(jobData);
+    await collectionRef.doc().set(job.toMap());
   }
 }
