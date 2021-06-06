@@ -24,7 +24,7 @@ class JobsPage extends StatelessWidget {
   void _addNewJob(BuildContext context) async {
     try {
       final db = Provider.of<Database>(context, listen: false);
-      await db.createJob(Job(name: 'Mobile Developer', ratePerHour: 250000));
+      await db.createJob(Job(name: 'Flutter Developer', ratePerHour: 250000));
     } catch (e) {
       PlatformAlertDialog(
         titleText: 'Something went wrong',
@@ -36,7 +36,6 @@ class JobsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Jobs'),
@@ -52,13 +51,38 @@ class JobsPage extends StatelessWidget {
           )
         ],
       ),
-      body: Center(
-        child: Text(auth.currentUser?.email ?? 'Anonymous User'),
-      ),
+      body: _buildContent(context),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_task),
         onPressed: () => _addNewJob(context),
       ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    final db = Provider.of<Database>(context, listen: false);
+    return StreamBuilder<List<Job>>(
+      stream: db.jobsStream(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting)
+          return Center(child: CircularProgressIndicator());
+        if (snapshot.data!.isNotEmpty) {
+          final jobs = snapshot.data!;
+          return ListView.builder(
+            itemCount: jobs.length,
+            itemBuilder: (context, index) {
+              final job = jobs[index];
+              return ListTile(
+                title: Text(job.name),
+                subtitle: Text(job.ratePerHour.toString()),
+              );
+            },
+          );
+        }
+        return Center(
+          child: Text('Jobs is empty'),
+        );
+      },
     );
   }
 }
