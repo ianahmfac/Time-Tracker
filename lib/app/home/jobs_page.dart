@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/services/auth.dart';
+import 'package:time_tracker/services/database.dart';
 import 'package:time_tracker/widgets/platform_alert_dialog.dart';
 
 class JobsPage extends StatelessWidget {
@@ -17,6 +18,14 @@ class JobsPage extends StatelessWidget {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  void _addNewJob(BuildContext context) async {
+    final db = Provider.of<Database>(context, listen: false);
+    await db.createJob({
+      'name': 'Blogging',
+      'ratePerHour': 50000,
+    });
   }
 
   @override
@@ -39,6 +48,10 @@ class JobsPage extends StatelessWidget {
       ),
       body: Center(
         child: Text(auth.currentUser?.email ?? 'Anonymous User'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add_task),
+        onPressed: () => _addNewJob(context),
       ),
     );
   }
