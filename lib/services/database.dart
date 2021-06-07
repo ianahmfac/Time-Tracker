@@ -19,6 +19,12 @@ class FirestoreDatabase implements Database {
         data: job.toMap(),
       );
 
+  @override
+  Stream<List<Job>> jobsStream() => _collectionStream(
+        path: APIPath.jobs(uid),
+        builder: (data) => Job.fromMap(data),
+      );
+
   Future<void> _setData({
     required String path,
     required Map<String, dynamic> data,
@@ -33,15 +39,16 @@ class FirestoreDatabase implements Database {
     }
   }
 
-  @override
-  Stream<List<Job>> jobsStream() {
-    final path = APIPath.jobs(uid);
+  Stream<List<T>> _collectionStream<T>({
+    required String path,
+    required T Function(Map<String, dynamic> data) builder,
+  }) {
     final reference = FirebaseFirestore.instance.collection(path);
     final snapshot = reference.snapshots();
     return snapshot.map(
       (event) => event.docs.map((job) {
         final data = job.data();
-        return Job.fromMap(data);
+        return builder(data);
       }).toList(),
     );
   }
