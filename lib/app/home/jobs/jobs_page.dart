@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker/app/home/jobs/add_job_page.dart';
 import 'package:time_tracker/models/job.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:time_tracker/services/database.dart';
@@ -18,19 +19,6 @@ class JobsPage extends StatelessWidget {
       if (alertShowed!) await auth.signOut();
     } catch (e) {
       print(e.toString());
-    }
-  }
-
-  void _addNewJob(BuildContext context) async {
-    try {
-      final db = Provider.of<Database>(context, listen: false);
-      await db.createJob(Job(name: 'Flutter Developer', ratePerHour: 250000));
-    } catch (e) {
-      PlatformAlertDialog(
-        titleText: 'Something went wrong',
-        contentText: e.toString(),
-        buttonDialogText: 'Close',
-      ).show(context);
     }
   }
 
@@ -54,7 +42,7 @@ class JobsPage extends StatelessWidget {
       body: _buildContent(context),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_task),
-        onPressed: () => _addNewJob(context),
+        onPressed: () => AddJobPage.show(context),
       ),
     );
   }
