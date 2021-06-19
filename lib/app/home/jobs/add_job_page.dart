@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:time_tracker/services/database.dart';
 
 class AddJobPage extends StatefulWidget {
-  const AddJobPage({Key? key}) : super(key: key);
+  final Database database;
+  const AddJobPage({
+    Key? key,
+    required this.database,
+  }) : super(key: key);
+
   static Future<void> show(BuildContext context) async {
+    final db = Provider.of<Database>(context, listen: false);
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddJobPage(),
+        builder: (context) => AddJobPage(
+          database: db,
+        ),
         fullscreenDialog: true,
       ),
     );
