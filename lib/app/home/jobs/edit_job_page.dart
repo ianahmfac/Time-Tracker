@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/models/job.dart';
 
+import 'package:time_tracker/models/job.dart';
 import 'package:time_tracker/services/database.dart';
 import 'package:time_tracker/widgets/platform_alert_dialog.dart';
 
-class AddJobPage extends StatefulWidget {
+class EditJobPage extends StatefulWidget {
   final Database database;
-  const AddJobPage({
+  final Job? job;
+  const EditJobPage({
     Key? key,
     required this.database,
+    this.job,
   }) : super(key: key);
 
-  static Future<void> show(BuildContext context) async {
+  static Future<void> show(BuildContext context, {Job? job}) async {
     final db = Provider.of<Database>(context, listen: false);
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddJobPage(
+        builder: (context) => EditJobPage(
           database: db,
+          job: job,
         ),
         fullscreenDialog: true,
       ),
@@ -26,10 +29,10 @@ class AddJobPage extends StatefulWidget {
   }
 
   @override
-  _AddJobPageState createState() => _AddJobPageState();
+  _EditJobPageState createState() => _EditJobPageState();
 }
 
-class _AddJobPageState extends State<AddJobPage> {
+class _EditJobPageState extends State<EditJobPage> {
   final _formKey = GlobalKey<FormState>();
 
   String? _name;
@@ -69,10 +72,19 @@ class _AddJobPageState extends State<AddJobPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.job != null) {
+      _name = widget.job?.name;
+      _ratePerHour = widget.job?.ratePerHour;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Job'),
+        title: Text(widget.job != null ? 'Edit Job' : 'New Job'),
         actions: [
           TextButton(
             onPressed: _submit,
@@ -112,6 +124,7 @@ class _AddJobPageState extends State<AddJobPage> {
   List<Widget> _buildFormChildren() {
     return [
       TextFormField(
+        initialValue: _name,
         onSaved: (newValue) => _name = newValue,
         validator: (value) {
           if (value!.isEmpty) return 'Job name cannot be empty';
@@ -123,6 +136,7 @@ class _AddJobPageState extends State<AddJobPage> {
       ),
       SizedBox(height: 8),
       TextFormField(
+        initialValue: _ratePerHour != null ? _ratePerHour.toString() : null,
         onSaved: (newValue) =>
             _ratePerHour = int.tryParse(newValue.toString()) ?? 0,
         validator: (value) {

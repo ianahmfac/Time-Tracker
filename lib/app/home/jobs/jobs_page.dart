@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker/app/home/jobs/add_job_page.dart';
+import 'package:time_tracker/app/home/jobs/edit_job_page.dart';
 import 'package:time_tracker/app/home/jobs/job_list_tile.dart';
 import 'package:time_tracker/models/job.dart';
 import 'package:time_tracker/services/auth.dart';
@@ -43,7 +43,7 @@ class JobsPage extends StatelessWidget {
       body: _buildContent(context),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_task),
-        onPressed: () => AddJobPage.show(context),
+        onPressed: () => EditJobPage.show(context),
       ),
     );
   }
@@ -63,7 +63,7 @@ class JobsPage extends StatelessWidget {
               final job = jobs[index];
               return JobListTile(
                 job: job,
-                onTap: () {},
+                onTap: () => EditJobPage.show(context, job: job),
               );
             },
           );
