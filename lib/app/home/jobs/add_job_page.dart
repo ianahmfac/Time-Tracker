@@ -123,7 +123,8 @@ class _AddJobPageState extends State<AddJobPage> {
       ),
       SizedBox(height: 8),
       TextFormField(
-        onSaved: (newValue) => _ratePerHour = int.parse(newValue.toString()),
+        onSaved: (newValue) =>
+            _ratePerHour = int.tryParse(newValue.toString()) ?? 0,
         validator: (value) {
           if (value!.isEmpty) return 'Rate hour cannot be empty';
           return null;

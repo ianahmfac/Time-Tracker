@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/app/home/jobs/add_job_page.dart';
+import 'package:time_tracker/app/home/jobs/job_list_tile.dart';
 import 'package:time_tracker/models/job.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:time_tracker/services/database.dart';
@@ -60,9 +61,9 @@ class JobsPage extends StatelessWidget {
             itemCount: jobs.length,
             itemBuilder: (context, index) {
               final job = jobs[index];
-              return ListTile(
-                title: Text(job.name),
-                subtitle: Text(job.ratePerHour.toString()),
+              return JobListTile(
+                job: job,
+                onTap: () {},
               );
             },
           );
