@@ -1,7 +1,9 @@
 class Job {
+  final String id;
   final String name;
   final int ratePerHour;
   Job({
+    required this.id,
     required this.name,
     required this.ratePerHour,
   });
@@ -13,8 +15,9 @@ class Job {
     };
   }
 
-  factory Job.fromMap(Map<String, dynamic> map) {
+  factory Job.fromMap(Map<String, dynamic> map, String id) {
     return Job(
+      id: id,
       name: map['name'],
       ratePerHour: map['ratePerHour'],
     );

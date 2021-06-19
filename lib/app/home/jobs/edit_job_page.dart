@@ -50,6 +50,9 @@ class _EditJobPageState extends State<EditJobPage> {
       try {
         final jobs = await widget.database.jobsStream().first;
         final allNameJob = jobs.map((e) => e.name).toList();
+        if (widget.job != null) {
+          allNameJob.remove(widget.job?.name);
+        }
         if (allNameJob.contains(_name)) {
           PlatformAlertDialog(
             titleText: 'Name already used',
@@ -58,8 +61,9 @@ class _EditJobPageState extends State<EditJobPage> {
           ).show(context);
           return;
         }
-        final job = Job(name: _name!, ratePerHour: _ratePerHour!);
-        await widget.database.createJob(job);
+        final id = widget.job?.id ?? documentIdFromCurrentDate();
+        final job = Job(id: id, name: _name!, ratePerHour: _ratePerHour!);
+        await widget.database.setJob(job);
         Navigator.pop(context);
       } catch (e) {
         PlatformAlertDialog(
