@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:time_tracker/models/job.dart';
 
 import 'package:time_tracker/services/database.dart';
+import 'package:time_tracker/widgets/platform_alert_dialog.dart';
 
 class AddJobPage extends StatefulWidget {
   final Database database;
@@ -43,9 +44,17 @@ class _AddJobPageState extends State<AddJobPage> {
 
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
-      final job = Job(name: _name!, ratePerHour: _ratePerHour!);
-      await widget.database.createJob(job);
-      Navigator.pop(context);
+      try {
+        final job = Job(name: _name!, ratePerHour: _ratePerHour!);
+        await widget.database.createJob(job);
+        Navigator.pop(context);
+      } catch (e) {
+        PlatformAlertDialog(
+          titleText: 'Operation Failed',
+          contentText: e.toString(),
+          buttonDialogText: 'OK',
+        ).show(context);
+      }
     }
   }
 
