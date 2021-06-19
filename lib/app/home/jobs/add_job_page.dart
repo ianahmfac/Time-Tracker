@@ -45,6 +45,16 @@ class _AddJobPageState extends State<AddJobPage> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       try {
+        final jobs = await widget.database.jobsStream().first;
+        final allNameJob = jobs.map((e) => e.name).toList();
+        if (allNameJob.contains(_name)) {
+          PlatformAlertDialog(
+            titleText: 'Name already used',
+            contentText: 'Please choose a different job name',
+            buttonDialogText: 'OK',
+          ).show(context);
+          return;
+        }
         final job = Job(name: _name!, ratePerHour: _ratePerHour!);
         await widget.database.createJob(job);
         Navigator.pop(context);
