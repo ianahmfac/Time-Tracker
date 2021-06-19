@@ -15,9 +15,11 @@ class FirestoreDatabase implements Database {
 
   final _service = FirestoreService.instance;
 
+  String get _documentId => DateTime.now().toIso8601String();
+
   @override
   Future<void> createJob(Job job) async => _service.setData(
-        path: APIPath.job(uid, 'job_abc'),
+        path: APIPath.job(uid, _documentId),
         data: job.toMap(),
       );
 

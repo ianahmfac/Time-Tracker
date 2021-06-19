@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker/models/job.dart';
 
 import 'package:time_tracker/services/database.dart';
 
@@ -40,10 +41,11 @@ class _AddJobPageState extends State<AddJobPage> {
     return true;
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (_validateAndSaveForm()) {
-      print('Job Name: $_name');
-      print('Rate per hour: $_ratePerHour');
+      final job = Job(name: _name!, ratePerHour: _ratePerHour!);
+      await widget.database.createJob(job);
+      Navigator.pop(context);
     }
   }
 
