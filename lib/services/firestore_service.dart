@@ -19,6 +19,17 @@ class FirestoreService {
     }
   }
 
+  Future<void> deleteData({required String path}) async {
+    try {
+      final ref = FirebaseFirestore.instance.doc(path);
+      await ref.delete();
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Stream<List<T>> collectionStream<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentId) builder,
