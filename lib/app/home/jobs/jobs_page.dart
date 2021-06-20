@@ -5,6 +5,7 @@ import 'package:time_tracker/app/home/jobs/job_list_tile.dart';
 import 'package:time_tracker/models/job.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:time_tracker/services/database.dart';
+import 'package:time_tracker/widgets/empty_content.dart';
 import 'package:time_tracker/widgets/platform_alert_dialog.dart';
 
 class JobsPage extends StatelessWidget {
@@ -68,8 +69,9 @@ class JobsPage extends StatelessWidget {
             },
           );
         }
-        return Center(
-          child: Text('Jobs is empty'),
+        return EmptyContent(
+          title: 'Nothing Here',
+          message: 'Add a new job to get started',
         );
       },
     );
