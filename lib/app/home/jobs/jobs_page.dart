@@ -6,6 +6,7 @@ import 'package:time_tracker/models/job.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:time_tracker/services/database.dart';
 import 'package:time_tracker/widgets/empty_content.dart';
+import 'package:time_tracker/widgets/list_item_builder.dart';
 import 'package:time_tracker/widgets/platform_alert_dialog.dart';
 
 class JobsPage extends StatelessWidget {
@@ -54,24 +55,12 @@ class JobsPage extends StatelessWidget {
     return StreamBuilder<List<Job>>(
       stream: db.jobsStream(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(child: CircularProgressIndicator());
-        if (snapshot.data!.isNotEmpty) {
-          final jobs = snapshot.data!;
-          return ListView.builder(
-            itemCount: jobs.length,
-            itemBuilder: (context, index) {
-              final job = jobs[index];
-              return JobListTile(
-                job: job,
-                onTap: () => EditJobPage.show(context, job: job),
-              );
-            },
-          );
-        }
-        return EmptyContent(
-          title: 'Nothing Here',
-          message: 'Add a new job to get started',
+        return ListItemsBuilder<Job>(
+          snapshot: snapshot,
+          itemBuilder: (context, job) => JobListTile(
+            job: job,
+            onTap: () => EditJobPage.show(context, job: job),
+          ),
         );
       },
     );
