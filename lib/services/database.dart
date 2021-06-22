@@ -1,6 +1,6 @@
 import 'package:time_tracker/models/entry.dart';
 import 'package:time_tracker/models/job.dart';
-import 'package:time_tracker/services/api_path.dart';
+import 'package:time_tracker/utils/api_path.dart';
 import 'package:time_tracker/services/firestore_service.dart';
 
 abstract class Database {
