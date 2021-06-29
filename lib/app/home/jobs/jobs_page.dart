@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker/app/home/entries/job_entries_page.dart';
 import 'package:time_tracker/app/home/jobs/edit_job_page.dart';
 import 'package:time_tracker/app/home/jobs/job_list_tile.dart';
 import 'package:time_tracker/models/job.dart';
@@ -46,6 +47,7 @@ class JobsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final db = Provider.of<Database>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Jobs'),
@@ -64,7 +66,7 @@ class JobsPage extends StatelessWidget {
       body: _buildContent(context),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_task),
-        onPressed: () => EditJobPage.show(context),
+        onPressed: () => EditJobPage.show(context, db: db),
       ),
     );
   }
@@ -81,7 +83,7 @@ class JobsPage extends StatelessWidget {
             actionPane: SlidableDrawerActionPane(),
             child: JobListTile(
               job: job,
-              onTap: () => EditJobPage.show(context, job: job),
+              onTap: () => JobEntriesPage.show(context, job),
             ),
             secondaryActions: [
               IconSlideAction(
