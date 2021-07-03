@@ -60,14 +60,17 @@ class JobsPage extends StatelessWidget {
             style: TextButton.styleFrom(
               primary: Colors.white,
             ),
+          ),
+          IconButton(
+            onPressed: () => EditJobPage.show(context, db: db),
+            icon: Icon(
+              Icons.add_task,
+              color: Colors.white,
+            ),
           )
         ],
       ),
       body: _buildContent(context),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add_task),
-        onPressed: () => EditJobPage.show(context, db: db),
-      ),
     );
   }
 

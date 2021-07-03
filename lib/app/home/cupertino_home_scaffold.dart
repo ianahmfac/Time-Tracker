@@ -36,6 +36,26 @@ class CupertinoHomeScaffold extends StatelessWidget {
         );
       },
     );
+
+    // For Material Bottom Navbar
+    // return Scaffold(
+    //   body: widgetBuilders[currentTab]!(context),
+    //   bottomNavigationBar: BottomAppBar(
+    //     child: BottomNavigationBar(
+    //       elevation: 0,
+    //       backgroundColor: Colors.white,
+    //       items: [
+    //         _buildNavbarItem(TabItem.jobs),
+    //         _buildNavbarItem(TabItem.entries),
+    //         _buildNavbarItem(TabItem.account),
+    //       ],
+    //       onTap: (value) => onSelectTab(TabItem.values[value]),
+    //       selectedItemColor: Colors.indigo,
+    //       unselectedItemColor: Colors.grey,
+    //       currentIndex: currentTab.index,
+    //     ),
+    //   ),
+    // );
   }
 
   BottomNavigationBarItem _buildNavbarItem(TabItem tabItem) {
