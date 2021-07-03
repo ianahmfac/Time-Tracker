@@ -15,7 +15,11 @@ class _HomeWrapperState extends State<HomeWrapper> {
   Widget build(BuildContext context) {
     return CupertinoHomeScaffold(
       currentTab: _currentTab,
-      onSelectTab: (item) {},
+      onSelectTab: (item) {
+        setState(() {
+          _currentTab = item;
+        });
+      },
     );
   }
 }
