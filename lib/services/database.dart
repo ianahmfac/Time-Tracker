@@ -1,12 +1,13 @@
 import 'package:time_tracker/models/entry.dart';
 import 'package:time_tracker/models/job.dart';
-import 'package:time_tracker/utils/api_path.dart';
 import 'package:time_tracker/services/firestore_service.dart';
+import 'package:time_tracker/utils/api_path.dart';
 
 abstract class Database {
   Future<void> setJob(Job job);
   Stream<List<Job>> jobsStream();
   Future<void> deleteJob(Job job);
+  Stream<Job> jobDocStream({required String jobId});
 
   Future<void> setEntry(Entry entry);
   Future<void> deleteEntry(Entry entry);
@@ -68,6 +69,14 @@ class FirestoreDatabase implements Database {
     return _service.setData(
       path: APIPath.entry(uid, entry.id),
       data: entry.toMap(),
+    );
+  }
+
+  @override
+  Stream<Job> jobDocStream({required String jobId}) {
+    return _service.documentStream(
+      path: APIPath.job(uid, jobId),
+      builder: (data, documentID) => Job.fromMap(data, documentID),
     );
   }
 }

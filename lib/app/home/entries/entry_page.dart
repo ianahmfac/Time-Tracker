@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:time_tracker/app/home/entries/date_time_picker.dart';
+import 'package:time_tracker/widgets/date_time_picker.dart';
 import 'package:time_tracker/models/entry.dart';
 import 'package:time_tracker/models/job.dart';
 import 'package:time_tracker/services/database.dart';
