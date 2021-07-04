@@ -11,7 +11,7 @@ class EntriesBloc {
   EntriesBloc({required this.database});
   final Database database;
 
-  /// combine List<Job>, List<Entry> into List<EntryJob>
+  //* combine List<Job>, List<Entry> into List<EntryJob>
   Stream<List<EntryJob>> get _allEntriesStream => Rx.combineLatest2(
         database.entriesStream(),
         database.jobsStream(),
@@ -19,19 +19,21 @@ class EntriesBloc {
       );
 
   static List<EntryJob> _entriesJobsCombiner(
-      List<Entry> entries, List<Job?> jobs) {
+    List<Entry> entries,
+    List<Job> jobs,
+  ) {
     return entries.map((entry) {
       final job = jobs.firstWhere(
-        (job) => job?.id == entry.jobId,
-        orElse: () => null,
+        (job) => job.id == entry.jobId,
       );
-      return EntryJob(entry, job!);
+      return EntryJob(entry, job);
     }).toList();
   }
 
   /// Output stream
-  Stream<List<EntriesListTileModel>> get entriesTileModelStream =>
-      _allEntriesStream.map(_createModels);
+  Stream<List<EntriesListTileModel>> get entriesTileModelStream {
+    return _allEntriesStream.map(_createModels);
+  }
 
   static List<EntriesListTileModel> _createModels(List<EntryJob> allEntries) {
     if (allEntries.isEmpty) {
