@@ -34,9 +34,15 @@ class _HomeWrapperState extends State<HomeWrapper> {
       child: CupertinoHomeScaffold(
         currentTab: _currentTab,
         onSelectTab: (item) {
-          setState(() {
-            _currentTab = item;
-          });
+          if (item == _currentTab) {
+            _navigatorKeys[item]!
+                .currentState!
+                .popUntil((route) => route.isFirst);
+          } else {
+            setState(() {
+              _currentTab = item;
+            });
+          }
         },
         widgetBuilders: _widgetBuilder,
         navigatorKey: _navigatorKeys,
