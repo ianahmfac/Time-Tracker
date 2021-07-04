@@ -20,16 +20,27 @@ class _HomeWrapperState extends State<HomeWrapper> {
         TabItem.account: (_) => AccountPage(),
       };
 
+  final Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
+    TabItem.jobs: GlobalKey<NavigatorState>(),
+    TabItem.entries: GlobalKey<NavigatorState>(),
+    TabItem.account: GlobalKey<NavigatorState>(),
+  };
+
   @override
   Widget build(BuildContext context) {
-    return CupertinoHomeScaffold(
-      currentTab: _currentTab,
-      onSelectTab: (item) {
-        setState(() {
-          _currentTab = item;
-        });
-      },
-      widgetBuilders: _widgetBuilder,
+    return WillPopScope(
+      onWillPop: () async =>
+          !await _navigatorKeys[_currentTab]!.currentState!.maybePop(),
+      child: CupertinoHomeScaffold(
+        currentTab: _currentTab,
+        onSelectTab: (item) {
+          setState(() {
+            _currentTab = item;
+          });
+        },
+        widgetBuilders: _widgetBuilder,
+        navigatorKey: _navigatorKeys,
+      ),
     );
   }
 }
